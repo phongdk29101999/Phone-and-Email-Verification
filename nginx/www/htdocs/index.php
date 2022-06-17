@@ -1,6 +1,27 @@
 <?php
 	include "core/init.php";
-	Database::instance()->prepare("select * from users")->execute();
+	if (isset($_POST["login"])) {
+		$email = $validate->escape($_POST["email"]);
+		$password = $validate->escape($_POST["password"]);
+		if(empty($email) or empty($password)) {
+			$error = "Enter your email or password to login!";
+			return;
+		}
+		if (! $validate->filterEmail($email)) {
+			$error = "Invalid email";
+			return;
+		}
+		if (!$user = $userObject->emailExist($email)) {
+			$error = "No account with that email exist";
+			return;
+		}
+		$hash = $user->password;
+		if (!password_verify($password, $hash)) {
+			$error = "Email or Password is incorrect!";
+		}
+		$_SESSION["user_id"] = $user->id;
+		$userObject->redirect("home.php");
+	}
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,7 +46,9 @@
 				<input type="password" name="password" placeholder="Password">
 				<button type="submit" name="login">Login</button>
 				</div>
-				<div class="error shake-horizontal">Errors shows here</div>
+				<?php if (isset($error)):?>
+				<div class="error shake-horizontal"><?= $error?></div>
+				<?php endif?>
 			</form>
 			</div>
 		</div>
