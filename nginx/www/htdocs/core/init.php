@@ -6,5 +6,6 @@
         require_once "classes/{$class}.php";
     });
 
-    // session
+    // session start
     session_start();
+?>
