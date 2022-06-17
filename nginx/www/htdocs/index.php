@@ -1,4 +1,6 @@
 <?php
+	include "core/init.php";
+	Database::instance();
 ?>
 <!DOCTYPE html>
 <html>

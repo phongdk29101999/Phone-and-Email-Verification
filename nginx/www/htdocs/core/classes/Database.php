@@ -2,6 +2,7 @@
     class Database
     {
         protected $pdo;
+        protected static $instance;
 
         protected function __construct() 
         {
@@ -10,6 +11,14 @@
             } catch (PDOException $e) {
                 echo $e->getMessage();
             }
+        }
+
+        public static function instance()
+        {
+            if (self::$instance === null) {
+                self::$instance = new self;
+            }
+            return self::$instance;
         }
     }
 ?>
