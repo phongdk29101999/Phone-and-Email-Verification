@@ -6,6 +6,9 @@
         require_once "classes/{$class}.php";
     });
 
+    $userObject = new Users;
+    $validate = new Validate;
+
     // session start
     session_start();
 ?>
