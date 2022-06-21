@@ -1,5 +1,6 @@
 <?php
 	include "core/init.php";
+	
 	if (isset($_POST["login"])) {
 		$email = $validate->escape($_POST["email"]);
 		$password = $validate->escape($_POST["password"]);
@@ -7,7 +8,7 @@
 			$error = "Enter your email or password to login!";
 			return;
 		}
-		if (! $validate->filterEmail($email)) {
+		if (!$validate->filterEmail($email)) {
 			$error = "Invalid email";
 			return;
 		}

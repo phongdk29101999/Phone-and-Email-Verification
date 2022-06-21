@@ -1,0 +1,155 @@
+# /bin/bash
+
+# Define color
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m'    # No Color
+#################################
+# Help                          #
+#################################
+Help()
+{
+    # Display help
+    printf "${YELLOW}Description:${NC}\n"
+    printf "  Project CLI \n"
+    printf "${YELLOW}Usage:${NC}\n"
+    printf "    ./cli command [options] [arguments]\n"
+    printf "${YELLOW}Options:${NC}\n"
+    printf "    ${GREEN}-h, --help${NC}             Display this help message\n"
+    printf "${YELLOW}Avaiable commands:${NC}\n"
+    printf "    ${GREEN}build${NC}                  Build & Run docker compose\n"
+    printf "    ${GREEN}load-database${NC}          Import sql file to database\n"
+}
+
+#################################
+# BuildHelp                     #
+#################################
+BuildHelp()
+{
+    # Display help
+    printf "${YELLOW}Description:${NC}\n"
+    printf "  Build and run docker compose\n"
+    printf "${YELLOW}Usage:${NC}\n"
+    printf "    ${GREEN}./cli build${NC}\n"
+    printf "${YELLOW}Option:${NC}\n"
+    printf "    ${GREEN}-h, --help${NC}             Display this help message\n"
+}
+
+#################################
+# Build                         #
+#################################
+Build()
+{
+    if [ $1 -eq 1 ]
+    then
+        docker-compose build && docker-compose up -d
+    fi
+
+    if [ $1 -eq 2 ]
+    then
+        case $2 in
+            -h | --help)
+                BuildHelp
+                exit;;
+            *)
+                echo "${RED}Error:${NC} Invalid argument!"
+                echo "${RED}Error:${NC} Command init:file doesn't have argument \"$2\""
+                exit;;
+        esac
+    fi
+
+    if [ $1 -gt 2 ]
+    then
+        echo "${RED}Error:${NC} Too much arguments passed after command init:file"
+        exit
+    fi
+}
+
+#################################
+# LoadDB                        #
+#################################
+LoadDB()
+{
+    if [ $1 -eq 1 ]
+    then
+        echo "${RED}Error:${NC} No argument passed after command load:db"
+        exit
+    fi
+
+    if [ $1 -eq 2 ]
+    then
+        case $2 in
+            -h | --help)
+                LoadDBHelp
+                exit;;
+            *)
+                echo "${RED}Error:${NC} Invalid argument!"
+                echo "${RED}Error:${NC} Command load:db doesn't have argument \"$2\""
+                exit;;
+        esac
+    fi
+
+    if [ $1 -eq 3 ]
+    then
+        case $2 in
+            -f | --file)
+                filename="$(basename $3)"
+                docker cp $3 web_mysql:/
+                docker exec web_mysql bash -c "mysql -u web_user -pweb_password web_db < $filename"
+                docker exec web_mysql bash -c "rm -f $filename"
+                printf "${GREEN}Import sql file to database successfully${NC}\n"
+                exit;;
+            *)
+                echo "${RED}Error:${NC} Invalid option!"
+                echo "${RED}Error:${NC} Command load:db doesn't have option \"$2\""
+                exit;;
+        esac
+    fi
+}
+
+#################################
+# LoadDBHelp                    #
+#################################
+LoadDBHelp()
+{
+    # Display help
+    printf "${YELLOW}Description:${NC}\n"
+    printf "  Import sql file to database\n"
+    printf "${YELLOW}Usage:${NC}\n"
+    printf "    ${GREEN}./cli load-database [option] [argument]${NC}\n"
+    printf "${YELLOW}Option:${NC}\n"
+    printf "    ${GREEN}-f, --file${NC}             Import to database without default file\n"
+    printf "    ${GREEN}-h, --help${NC}             Display this help message\n"
+}
+
+#################################
+# Main                          #
+#################################
+
+# Set variables
+
+# Check if option is not passed
+if [ $# -eq 0 ]
+then
+echo "${RED}Error:${NC} Missing options!"
+echo "(run $0 -h for help)"
+echo ""
+exit
+fi
+
+# case options
+case $1 in
+    build)
+        Build $# $2
+        exit;;
+    load-database)
+        LoadDB $# $2 $3
+        exit;;
+    -h | --help)  # display help
+        Help
+        exit;;
+    *) # Invalid option
+        echo "${RED}Error: Invalid option!${NC}"
+        exit;;
+esac
