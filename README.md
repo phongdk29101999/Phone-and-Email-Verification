@@ -6,10 +6,22 @@
 
 - install Docker-CE
 
+## Initialize cli file
+
+```
+cp cli.example cli && sudo chmod +x cli
+```
+
 ## Build & Run
 
 ```
-docker-compose build && docker-compose up -d
+./cli build
+```
+
+## Load database
+
+```
+./cli load-database -f ./mysql/init/web_db.sql
 ```
 
 ## Access to web

@@ -4,12 +4,12 @@
 }
 
 body.body2{
-	background:url('../img/1.jpg');
+	background:url('../img/background.jpeg');
 	background-size: cover;
 	overflow: auto;
 }
 body.body{
-	background:url('../img/1.jpg');
+	background:url('../img/background.jpeg');
 	background-size: cover;
 	overflow: auto;
 }
@@ -38,7 +38,7 @@ body.body{
 	font-size:6em;
 	font-weight: bolder;
 	text-align: center;
-	color: #ffffff;
+	color: #000000;
 	margin-top: 15%;
 }
 
@@ -46,7 +46,7 @@ body.body{
 	font-size:24px;
 	font-weight: bolder;
 	text-align: center;
-	color: #ffffff;
+	color: #383838;
 }
 /*CONTENT START*/
 /* .content-wrapper{
@@ -54,7 +54,8 @@ body.body{
 } */
 /*SIGN-IN START*/
 .sign-in{
-	background-color: rgba(163,193,167,0.8);
+	background-color: #6D8B74;
+	opacity: 0.85;
 	padding: 130px;
 }
 
@@ -81,7 +82,7 @@ body.body{
 	width: 14%;
 	font-weight: bolder;
 	color: #fff;
-	background-color:rgb(243,128,65);
+	background-color: #C84B31;
 	border: none;
 	font-size: 20px;
 	cursor: pointer;
