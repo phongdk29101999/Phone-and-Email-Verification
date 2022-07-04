@@ -25,6 +25,24 @@
             }
         }
 
+        public function insert($table, $fields = array()) {
+            $columns = implode(", ", array_keys($fields));
+            $values = ":" . implode(", :", array_keys($fields));
+            // sql query
+            $sql = "INSERT INTO {$table} ({$columns}) VALUES({$values})";
+            // check if sql is prepared
+            if ($sqlPrepare = $this->db->prepare($sql)) {
+                // bind values to placeholders
+                foreach($fields as $key => $value) {
+                    $sqlPrepare->bindValue(":{$key}", $value);
+                }
+                // execute
+                $sqlPrepare->execute();
+                // return $user_id
+                return $this->db->lastInsertId();
+            }
+        }
+
         public function update($table, $fields, $conditions)
         {
             $columns = "";
@@ -68,7 +86,7 @@
 
         public function usernameExist($username) 
         {
-            $username = $this->get("users", array("username" =>$username));
+            $username = $this->get("users", array("user_name" =>$username));
             return ((!empty($username))) ? $username : false;
         }
 

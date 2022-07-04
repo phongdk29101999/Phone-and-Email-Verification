@@ -35,8 +35,9 @@ CREATE TABLE `users` (
   `user_name` varchar(40) NOT NULL,
   `first_name` varchar(50) NOT NULL,
   `last_name` varchar(50) NOT NULL,
-  `phone` varchar(15) NOT NULL,
-  `joined` datetime NOT NULL,
+  `phone` varchar(15) NULL,
+  `gender` varchar(100) NOT NULL,
+  `joined` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `birthday` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -44,8 +45,8 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`id`, `email`, `password`, `user_name`, `first_name`, `last_name`, `phone`, `joined`, `birthday`) VALUES
-(1, 'kinkaze@example.com', '$2y$10$7SnwnODsqofHmzkJG9ls6.0eZ1SZbkjh9JA06lhU1pILBb1fUo3cK', 'kinkaze', 'Kaze', 'Kin', '0123456789', '2022-06-18 12:06:46', '2022-06-18 12:06:46');
+INSERT INTO `users` (`id`, `email`, `password`, `user_name`, `first_name`, `last_name`, `phone`, `gender`, `joined`, `birthday`) VALUES
+(1, 'kinkaze@example.com', '$2y$10$7SnwnODsqofHmzkJG9ls6.0eZ1SZbkjh9JA06lhU1pILBb1fUo3cK', 'kinkaze', 'Kaze', 'Kin', '0123456789', 'male', '2022-06-18 12:06:46', '2022-06-18 12:06:46');
 
 --
 -- Chỉ mục cho các bảng đã đổ

@@ -1,6 +1,9 @@
 <?php
     include "core/init.php";
 
+	if (!$userObject->isLoggedIn()) {
+        $userObject->redirect("index.php");
+    }
     $userId = $_SESSION["user_id"];
     $user = $userObject->userData($userId);
 
